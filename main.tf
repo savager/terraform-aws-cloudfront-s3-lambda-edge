@@ -66,17 +66,16 @@ resource "aws_route53_record" "route53_record" {
 
   alias {
     name    = aws_cloudfront_distribution.s3_distribution.domain_name
-    zone_id = "Z2FDTNDATAQYW2"
+    zone_id = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
 
     //HardCoded value for CloudFront
     evaluate_target_health = false
   }
 }
 
+// Cloudfront Distro with lambda@Edge integration
 resource "aws_cloudfront_distribution" "s3_distribution" {
-  depends_on = [
-    aws_s3_bucket.s3_bucket,
-  ]
+  depends_on = [aws_s3_bucket.s3_bucket]
 
   origin {
     domain_name = "${var.domain_name}.s3.amazonaws.com"
@@ -105,6 +104,12 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       "GET",
       "HEAD",
     ]
+
+    lambda_function_association {
+      event_type   = "origin-request"
+      lambda_arn   = aws_lambda_function.folder_index_redirect.qualified_arn
+      include_body = false
+    }
 
     target_origin_id = "s3-cloudfront"
 
