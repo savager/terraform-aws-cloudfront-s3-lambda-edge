@@ -21,15 +21,15 @@ Prerequisites:
     }
      
     module "cloudfront_s3_website" {
-        source           = "twstewart42/cloudfront-s3-website/aws"
-        version          = "1.1.0"
+        source           = "twstewart42/cloudfront-s3-website-lambda-edge/aws"
+        version          = "1.1.1"
         hosted_zone      = "example.com"
         domain_name      = "test.example.com"
         aws_region       = "us-east-1"
     }
 
 ### Variables    
-| variable | Default | Description |
+| Variable | Default | Description |
 | -------- | ------- | ----------- |
 | aws_region | us-east-1| AWS Region to host S3 site | 
 | domain_name | None | FQDN of cloudfront alias for the website - blog.site.com|
@@ -37,4 +37,4 @@ Prerequisites:
 | tags | None | Map of the tags for all resources |
 
 ### Credits
-The original core module was developed by [chgangaraju/terraform-aws-cloudfront-s3-website](https://github.com/chgangaraju/terraform-aws-cloudfront-s3-website)
+The original core 1.0.0 module was developed by [chgangaraju/terraform-aws-cloudfront-s3-website](https://github.com/chgangaraju/terraform-aws-cloudfront-s3-website)
