@@ -32,7 +32,7 @@ Prerequisites:
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
 | aws_region | us-east-1| AWS Region to host S3 site | 
-| domain_name | None | FQDN of cloudfront alias for the website - blog.site.com|
+| domain_name | None | FQDN of cloudfront alias for the website, S3 bucket name - blog.site.com|
 | hosted_zone | None | Root domain of website - site.com |
 | tags | None | Map of the tags for all resources |
 
