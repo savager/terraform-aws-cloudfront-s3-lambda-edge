@@ -30,7 +30,7 @@ data "aws_iam_policy_document" "s3_bucket_policy" {
       type = "AWS"
 
       identifiers = [
-        "${aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn}",
+        aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn,
       ]
     }
   }
@@ -91,7 +91,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   default_root_object = "index.html"
 
   aliases = [
-    "${var.domain_name}",
+    var.domain_name
   ]
 
   default_cache_behavior {
