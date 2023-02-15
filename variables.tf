@@ -9,10 +9,10 @@ variable "domain_name" {
   type        = string
 }
 
-variable "hosted_zone" {
-  description = "Root domain of website - site.com"
-  type        = string
-}
+# variable "hosted_zone" {
+#   description = "Root domain of website - site.com"
+#   type        = string
+# }
 
 variable "tags" {
   default     = {}

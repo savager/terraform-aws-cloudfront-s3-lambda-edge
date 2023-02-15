@@ -3,16 +3,16 @@ provider "aws" {
   alias  = "aws_cloudfront"
 }
 
-data "aws_acm_certificate" "acm_cert" {
-  domain   = "*.${var.hosted_zone}"
-  provider = aws.aws_cloudfront
+# data "aws_acm_certificate" "acm_cert" {
+#   domain   = "*.${var.hosted_zone}"
+#   provider = aws.aws_cloudfront
 
-  //CloudFront uses certificates from US-EAST-1 region only
+#   //CloudFront uses certificates from US-EAST-1 region only
 
-  statuses = [
-    "ISSUED",
-  ]
-}
+#   statuses = [
+#     "ISSUED",
+#   ]
+# }
 
 data "aws_iam_policy_document" "s3_bucket_policy" {
   statement {
@@ -40,7 +40,7 @@ resource "aws_s3_bucket" "s3_bucket" {
   bucket = var.domain_name
   acl    = "private"
 
-  versioning {
+  aws_s3_bucket_versioning {
     enabled = true
   }
 
@@ -49,28 +49,28 @@ resource "aws_s3_bucket" "s3_bucket" {
   tags = var.tags
 }
 
-data "aws_route53_zone" "domain_name" {
-  name         = var.hosted_zone
-  private_zone = false
-}
+# data "aws_route53_zone" "domain_name" {
+#   name         = var.hosted_zone
+#   private_zone = false
+# }
 
-resource "aws_route53_record" "route53_record" {
-  depends_on = [
-    aws_cloudfront_distribution.s3_distribution,
-  ]
+# resource "aws_route53_record" "route53_record" {
+#   depends_on = [
+#     aws_cloudfront_distribution.s3_distribution,
+#   ]
 
-  zone_id = data.aws_route53_zone.domain_name.zone_id
-  name    = var.domain_name
-  type    = "A"
+#   zone_id = data.aws_route53_zone.domain_name.zone_id
+#   name    = var.domain_name
+#   type    = "A"
 
-  alias {
-    name    = aws_cloudfront_distribution.s3_distribution.domain_name
-    zone_id = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+#   alias {
+#     name    = aws_cloudfront_distribution.s3_distribution.domain_name
+#     zone_id = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
 
-    //HardCoded value for CloudFront
-    evaluate_target_health = false
-  }
-}
+#     //HardCoded value for CloudFront
+#     evaluate_target_health = false
+#   }
+# }
 
 // Cloudfront Distro with lambda@Edge integration
 resource "aws_cloudfront_distribution" "s3_distribution" {
